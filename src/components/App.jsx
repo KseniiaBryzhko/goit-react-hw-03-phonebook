@@ -10,6 +10,20 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('Contacts');
+    const parsedContacts = JSON.parse(savedContacts);
+    if (savedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('Contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   formSubmitHandler = data => {
     const contact = {
       ...data,
